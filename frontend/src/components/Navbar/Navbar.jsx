@@ -18,6 +18,7 @@ import { LOGOUT } from "../../constants/actionTypes";
 import useStyles from "./styles";
 import mainImg from "../../Images/icon.jpg";
 import name from "../../Images/name.jpg";
+import logo from "../../Images/logo.svg";
 
 function Navbar() {
   const classes = useStyles();
@@ -51,8 +52,8 @@ function Navbar() {
         {/* Brand Section */}
         <Box className={classes.brandContainer}>
           <Link to="/" className={classes.brandLink}>
-            <img src={name} alt="brand name" className={classes.brandName} />
-            <img src={mainImg} alt="brand icon" className={classes.brandIcon} />
+            <img src={logo} alt="brand name" className={classes.brandName} />
+            {/* <img src={mainImg} alt="brand icon" className={classes.brandIcon} /> */}
           </Link>
         </Box>
 
@@ -67,7 +68,7 @@ function Navbar() {
                   to="/dashboard"
                   className={classes.adminButton}
                   variant="text"
-                  color="inherit"
+                  color="inherit"MuiBox-root MuiBox-root-22 makeStyles-brandContainer-244
                 >
                   Dashboard
                 </Button>

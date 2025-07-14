@@ -1,18 +1,17 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { deepPurple } from "@material-ui/core/colors";
 
 export default makeStyles((theme) => ({
   appBar: {
-    backgroundColor: "#ffffff",
-    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-    borderBottom: "1px solid #e0e0e0",
+    backgroundColor: "#0c342c", // Dark green
+    boxShadow: "0 2px 8px rgba(12, 52, 44, 0.3)",
+    borderBottom: "1px solid #affa01",
     position: "sticky",
     top: 0,
     zIndex: 1100,
     minHeight: "64px",
     marginBottom: "24px",
     "&.MuiAppBar-root": {
-      color: "inherit",
+      color: "#fef9f5", // Off white
     },
     [theme.breakpoints.down("sm")]: {
       marginBottom: "16px",
@@ -41,10 +40,11 @@ export default makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     textDecoration: "none",
+    transition: "all 0.3s ease",
     "&:hover": {
       opacity: 0.8,
+      transform: "scale(1.02)",
     },
-    transition: "opacity 0.2s ease",
   },
   brandName: {
     height: "40px",
@@ -76,27 +76,34 @@ export default makeStyles((theme) => ({
     },
   },
   adminButton: {
-    color: theme.palette.primary.main,
-    fontWeight: 500,
+    color: "#affa01", // Light green
+    fontWeight: 900,
     textTransform: "none",
     padding: "6px 12px",
+    transition: "all 0.3s ease",
     "&:hover": {
-      backgroundColor: "rgba(25, 118, 210, 0.04)",
+      backgroundColor: "#affa01",
+      color: "#333333", // Black text
+      transform: "translateY(-1px)",
     },
     [theme.breakpoints.down("sm")]: {
       display: "none",
     },
   },
   recommendationButton: {
-    borderColor: theme.palette.primary.main,
-    color: theme.palette.primary.main,
-    fontWeight: 500,
+    borderColor: "#affa01", // Light green
+    color: "#affa01",
+    fontWeight: 700,
     textTransform: "none",
     padding: "6px 16px",
     borderRadius: "20px",
+    transition: "all 0.3s ease",
     "&:hover": {
-      backgroundColor: "rgba(25, 118, 210, 0.04)",
-      borderColor: theme.palette.primary.dark,
+      backgroundColor: "#affa01",
+      borderColor: "#affa01",
+      color: "#333333", // Black text
+      transform: "translateY(-1px)",
+      boxShadow: "0 4px 12px rgba(175, 250, 1, 0.2)",
     },
     [theme.breakpoints.down("sm")]: {
       padding: "4px 12px",
@@ -114,10 +121,17 @@ export default makeStyles((theme) => ({
   avatar: {
     width: "36px",
     height: "36px",
-    backgroundColor: deepPurple[500],
-    color: "#ffffff",
+    backgroundColor: "#affa01", // Light green
+    color: "#333333", // Black text
     fontWeight: 600,
     fontSize: "1rem",
+    cursor: "pointer",
+    transition: "all 0.3s ease",
+    "&:hover": {
+      backgroundColor: "#9ee100",
+      transform: "scale(1.05)",
+      boxShadow: "0 4px 12px rgba(175, 250, 1, 0.3)",
+    },
     [theme.breakpoints.down("sm")]: {
       width: "32px",
       height: "32px",
@@ -125,7 +139,7 @@ export default makeStyles((theme) => ({
     },
   },
   userName: {
-    color: theme.palette.text.primary,
+    color: "#fef9f5", // Off white
     fontWeight: 500,
     maxWidth: "120px",
     overflow: "hidden",
@@ -136,14 +150,18 @@ export default makeStyles((theme) => ({
     },
   },
   logoutButton: {
-    backgroundColor: theme.palette.secondary.main,
-    color: "#ffffff",
-    fontWeight: 500,
+    backgroundColor: "#ff3d11", // Orange
+    color: "#fef9f5", // Off white
+    fontWeight: 700,
     textTransform: "none",
     padding: "6px 16px",
     borderRadius: "20px",
+    transition: "all 0.3s ease",
     "&:hover": {
-      backgroundColor: theme.palette.secondary.dark,
+      backgroundColor: "#affa01", // Light green
+      color: "#333333", // Black text
+      transform: "translateY(-1px)",
+      boxShadow: "0 4px 12px rgba(175, 250, 1, 0.3)",
     },
     [theme.breakpoints.down("sm")]: {
       padding: "4px 12px",
@@ -151,14 +169,17 @@ export default makeStyles((theme) => ({
     },
   },
   signInButton: {
-    backgroundColor: theme.palette.primary.main,
-    color: "#ffffff",
-    fontWeight: 500,
+    backgroundColor: "#affa01", // Light green
+    color: "#333333", // Black text
+    fontWeight: 800,
     textTransform: "none",
     padding: "8px 24px",
     borderRadius: "20px",
+    transition: "all 0.3s ease",
     "&:hover": {
-      backgroundColor: theme.palette.primary.dark,
+      backgroundColor: "#9ee100", // Darker light green
+      transform: "translateY(-1px)",
+      boxShadow: "0 4px 12px rgba(175, 250, 1, 0.4)",
     },
     [theme.breakpoints.down("sm")]: {
       padding: "6px 16px",
@@ -168,10 +189,10 @@ export default makeStyles((theme) => ({
 
   // Legacy styles for backward compatibility (can be removed later)
   heading: {
-    color: theme.palette.primary.main,
+    color: "#affa01", // Light green
     textDecoration: "none",
     fontSize: "2em",
-    fontWeight: 300,
+    fontWeight: 500,
   },
   image: {
     marginLeft: "10px",
@@ -192,7 +213,7 @@ export default makeStyles((theme) => ({
     marginLeft: "20px",
   },
   purple: {
-    color: theme.palette.getContrastText(deepPurple[500]),
-    backgroundColor: deepPurple[500],
+    color: "#333333", // Black text
+    backgroundColor: "#affa01", // Light green
   },
 }));
