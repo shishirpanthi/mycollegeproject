@@ -54,3 +54,16 @@ export const fetchPostById = (id) => {
 export const commentPost = (comment, postId) => {
   return API.post(`/posts/${postId}/commentPost`, { comment });
 };
+
+// Recommendation system APIs
+export const fetchRecommendations = (limit = 10) => {
+  return API.get(`/posts/recommendations?limit=${limit}`);
+};
+
+export const fetchSimilarPosts = (postId, limit = 5) => {
+  return API.get(`/posts/${postId}/similar?limit=${limit}`);
+};
+
+export const trackPostView = (postId) => {
+  return API.post(`/posts/${postId}/view`);
+};
