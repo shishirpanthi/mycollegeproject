@@ -3,9 +3,14 @@ import { makeStyles } from "@material-ui/core/styles";
 export default makeStyles({
   media: {
     height: 0,
-    paddingTop: "70%",
+    paddingTop: "56.25%", // 16:9 aspect ratio
     backgroundColor: "rgba(12, 52, 44, 0.7)", // Dark green overlay
     backgroundBlendMode: "darken",
+    borderTopLeftRadius: "15px",
+    borderTopRightRadius: "15px",
+    position: "relative",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
   },
   border: {
     border: "2px solid #affa01", // Light green border
@@ -75,5 +80,18 @@ export default makeStyles({
     "&:hover": {
       backgroundColor: "rgba(175, 250, 1, 0.2)",
     },
+  },
+  imageCounter: {
+    position: "absolute",
+    top: "8px",
+    right: "8px",
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
+    color: "white",
+    padding: "4px 8px",
+    borderRadius: "12px",
+    fontSize: "12px",
+    fontWeight: "bold",
+    zIndex: 1,
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
   },
 });

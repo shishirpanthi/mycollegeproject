@@ -10,6 +10,7 @@ import {
   Container,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { toast } from "react-toastify";
 
 import useStyles from "./styles";
 import Input from "./Input/Input";
@@ -61,6 +62,12 @@ const Auth = () => {
     }
 
     setErrors(newErrors);
+
+    // Show toast for validation errors
+    if (Object.keys(newErrors).length > 0) {
+      toast.error("Please fix the form errors before submitting.");
+    }
+
     return Object.keys(newErrors).length === 0;
   };
 
@@ -78,7 +85,7 @@ const Auth = () => {
 
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
-    setErrors({ ...errors, [event.target.name]: "" }); 
+    setErrors({ ...errors, [event.target.name]: "" });
   };
 
   const handleShowPassword = () => {
@@ -87,8 +94,9 @@ const Auth = () => {
 
   const switchMode = () => {
     setIsSignUp((prevState) => !prevState);
-    setErrors({}); 
+    setErrors({});
     setFormData(initialFormData);
+    toast.info(`Switched to ${!isSignup ? "Sign Up" : "Sign In"} mode`);
   };
 
   return (

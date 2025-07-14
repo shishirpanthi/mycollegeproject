@@ -107,9 +107,15 @@ const Dashboard = () => {
           body: JSON.stringify({ title: newTitle }),
         });
 
+        if (res.ok) {
+          toast.success("Post updated successfully!");
+        } else {
+          toast.error("Failed to update post");
+        }
         await fetchData();
       } catch (error) {
         console.log(error);
+        toast.error("Error updating post");
       } finally {
         setLoading(false);
       }
@@ -121,7 +127,7 @@ const Dashboard = () => {
     if (newName) {
       setLoading(true);
       try {
-        await fetch(`http://127.0.0.1:3000/users/users/${id}`, {
+        const res = await fetch(`http://127.0.0.1:3000/users/users/${id}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
@@ -129,9 +135,16 @@ const Dashboard = () => {
           },
           body: JSON.stringify({ name: newName }),
         });
+
+        if (res.ok) {
+          toast.success("User updated successfully!");
+        } else {
+          toast.error("Failed to update user");
+        }
         await fetchData();
       } catch (error) {
         console.log(error);
+        toast.error("Error updating user");
       } finally {
         setLoading(false);
       }

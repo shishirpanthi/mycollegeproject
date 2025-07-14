@@ -13,6 +13,7 @@ import {
   useTheme,
 } from "@material-ui/core";
 import decode from "jwt-decode";
+import { toast } from "react-toastify";
 
 import { LOGOUT } from "../../constants/actionTypes";
 import useStyles from "./styles";
@@ -31,6 +32,7 @@ function Navbar() {
 
   const logout = () => {
     dispatch({ type: LOGOUT });
+    toast.success("Logged out successfully!");
     history.push("/");
   };
 
@@ -68,7 +70,10 @@ function Navbar() {
                   to="/dashboard"
                   className={classes.adminButton}
                   variant="text"
-                  color="inherit"MuiBox-root MuiBox-root-22 makeStyles-brandContainer-244
+                  color="inherit"
+                  MuiBox-root
+                  MuiBox-root-22
+                  makeStyles-brandContainer-244
                 >
                   Dashboard
                 </Button>

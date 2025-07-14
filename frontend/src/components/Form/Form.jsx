@@ -4,10 +4,11 @@ import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import FileBase from "react-file-base64";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { createPost, updatePost } from "../../actions/posts";
 
 const Posts = () => {
-  const initial = { title: "", message: "", tags: "", selectedFile: "" };
+  const initial = { title: "", message: "", tags: "", selectedFile: [] };
   const [postData, setPostData] = useState(initial);
   const [error, setError] = useState("");
 
@@ -28,13 +29,11 @@ const Posts = () => {
   }, [selectedPost, posts]);
 
   const validateForm = () => {
-    if (
-      !postData.title ||
-      !postData.message ||
-      !postData.tags ||
-      !postData.selectedFile
-    ) {
-      setError("All fields are required, and a file must be selected.");
+    if (!postData.title || !postData.message || !postData.tags) {
+      setError("Title, message, and tags are required.");
+      toast.error(
+        "Please fill in all required fields (Title, Message, and Tags)."
+      );
       return false;
     }
     setError("");
@@ -60,6 +59,7 @@ const Posts = () => {
     setPostData(initial);
     setError("");
     dispatch({ type: "SELECTED_POST", payload: "" });
+    toast.info("Form cleared!");
     history.push();
   };
 
@@ -120,13 +120,33 @@ const Posts = () => {
           }
         />
         <div className={classes.fileInput}>
+          <Typography className={classes.fileInputLabel}>
+            Upload Images (Optional)
+          </Typography>
           <FileBase
             type="file"
-            multiple={false}
-            onDone={({ base64 }) =>
-              setPostData({ ...postData, selectedFile: base64 })
-            }
+            multiple={true}
+            onDone={(files) => {
+              if (Array.isArray(files)) {
+                // Handle multiple files
+                const fileStrings = files.map((file) => file.base64);
+                setPostData({ ...postData, selectedFile: fileStrings });
+                toast.success(
+                  `${files.length} image${
+                    files.length > 1 ? "s" : ""
+                  } uploaded successfully!`
+                );
+              } else {
+                // Handle single file (backwards compatibility)
+                setPostData({ ...postData, selectedFile: [files.base64] });
+                toast.success("Image uploaded successfully!");
+              }
+            }}
           />
+          <Typography className={classes.fileInputHelp}>
+            You can upload multiple images to enhance your post. Supported
+            formats: JPG, PNG, GIF
+          </Typography>
         </div>
         <Button
           className={classes.buttonSubmit}

@@ -39,9 +39,29 @@ export default makeStyles((theme) => ({
   fileInput: {
     width: "97%",
     margin: "10px 0",
+    padding: "16px",
+    backgroundColor: "rgba(175, 250, 1, 0.05)",
+    border: "1px solid #0c342c",
+    borderRadius: "12px",
     "& .MuiOutlinedInput-root": {
       borderColor: "#0c342c", // Dark green
     },
+    "& input[type='file']": {
+      padding: "8px",
+      fontSize: "14px",
+    },
+  },
+  fileInputLabel: {
+    color: "#0c342c",
+    fontWeight: "600",
+    marginBottom: "8px",
+    display: "block",
+  },
+  fileInputHelp: {
+    color: "#666666",
+    fontSize: "12px",
+    marginTop: "8px",
+    fontStyle: "italic",
   },
   buttonSubmit: {
     marginBottom: 10,

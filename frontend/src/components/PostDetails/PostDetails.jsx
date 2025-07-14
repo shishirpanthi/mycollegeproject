@@ -91,10 +91,22 @@ function PostDetails() {
                     Likes: {likes.length}
                   </Typography>
                   <img
-                    src={selectedFile}
+                    src={
+                      Array.isArray(selectedFile) && selectedFile.length > 0
+                        ? selectedFile[0]
+                        : selectedFile
+                    }
                     height="120px"
                     alt="recommended_img"
                   />
+                  {Array.isArray(selectedFile) && selectedFile.length > 1 && (
+                    <Typography
+                      variant="caption"
+                      style={{ display: "block", marginTop: "4px" }}
+                    >
+                      +{selectedFile.length - 1} more images
+                    </Typography>
+                  )}
                 </div>
               )
             )}
@@ -141,14 +153,32 @@ function PostDetails() {
             <Divider style={{ margin: "20px 0" }} />
           </div>
           <div className={classes.imageSection}>
-            <img
-              className={classes.media}
-              src={
-                post.selectedFile ||
-                "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
-              }
-              alt={post.title}
-            />
+            {Array.isArray(post.selectedFile) &&
+            post.selectedFile.length > 0 ? (
+              <div>
+                {post.selectedFile.map((image, index) => (
+                  <img
+                    key={index}
+                    className={classes.media}
+                    src={image}
+                    alt={`${post.title} - ${index + 1}`}
+                    style={{
+                      marginBottom:
+                        index < post.selectedFile.length - 1 ? "10px" : "0",
+                    }}
+                  />
+                ))}
+              </div>
+            ) : (
+              <img
+                className={classes.media}
+                src={
+                  post.selectedFile ||
+                  "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
+                }
+                alt={post.title}
+              />
+            )}
           </div>
         </div>
 

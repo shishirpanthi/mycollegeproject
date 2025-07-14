@@ -11,8 +11,19 @@ import {
   Button,
   Chip,
   Box,
+  Dialog,
+  DialogContent,
+  IconButton,
 } from "@material-ui/core";
-import { ThumbUp, Comment, Visibility } from "@material-ui/icons";
+import {
+  ThumbUp,
+  Comment,
+  Visibility,
+  Close,
+  ZoomIn,
+  ArrowBack,
+  ArrowForward,
+} from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 import {
   getRecommendations,
@@ -20,8 +31,10 @@ import {
   likePost,
 } from "../../actions/posts";
 import moment from "moment";
+import useStyles from "./styles";
 
 const Recommendations = () => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const { recommendations, isLoading } = useSelector((state) => state.posts);
@@ -29,6 +42,9 @@ const Recommendations = () => {
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("traveller-profile"))
   );
+  const [fullScreenImage, setFullScreenImage] = useState(null);
+  const [imageDialogOpen, setImageDialogOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     if (user?.token) {
@@ -47,6 +63,22 @@ const Recommendations = () => {
     if (user?.token) {
       dispatch(likePost(postId));
     }
+  };
+
+  const handleImageClick = (imageData, postTitle) => {
+    if (Array.isArray(imageData)) {
+      setFullScreenImage({ urls: imageData, title: postTitle });
+    } else {
+      setFullScreenImage({ urls: [imageData], title: postTitle });
+    }
+    setCurrentImageIndex(0);
+    setImageDialogOpen(true);
+  };
+
+  const handleCloseImageDialog = () => {
+    setImageDialogOpen(false);
+    setFullScreenImage(null);
+    setCurrentImageIndex(0);
   };
 
   if (!user?.token) {
@@ -98,14 +130,39 @@ const Recommendations = () => {
                 flexDirection: "column",
               }}
             >
-              {post.selectedFile && (
-                <CardMedia
-                  component="img"
-                  height="200"
-                  image={post.selectedFile}
-                  alt={post.title}
-                  style={{ objectFit: "cover" }}
-                />
+              {post.selectedFile && post.selectedFile.length > 0 && (
+                <Box
+                  className={classes.imageContainer}
+                  onClick={() =>
+                    handleImageClick(
+                      Array.isArray(post.selectedFile)
+                        ? post.selectedFile[0]
+                        : post.selectedFile,
+                      post.title
+                    )
+                  }
+                >
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image={
+                      Array.isArray(post.selectedFile)
+                        ? post.selectedFile[0]
+                        : post.selectedFile
+                    }
+                    alt={post.title}
+                    style={{ objectFit: "cover" }}
+                  />
+                  <Box className={classes.zoomOverlay}>
+                    <ZoomIn className={classes.zoomIcon} />
+                  </Box>
+                  {Array.isArray(post.selectedFile) &&
+                    post.selectedFile.length > 1 && (
+                      <Box className={classes.imageCounter}>
+                        +{post.selectedFile.length - 1} more
+                      </Box>
+                    )}
+                </Box>
               )}
               <CardContent style={{ flexGrow: 1 }}>
                 <Typography variant="h6" gutterBottom>
@@ -173,6 +230,85 @@ const Recommendations = () => {
           </Grid>
         ))}
       </Grid>
+
+      {/* Full Screen Image Dialog */}
+      <Dialog
+        open={imageDialogOpen}
+        onClose={handleCloseImageDialog}
+        maxWidth="lg"
+        fullWidth
+        className={classes.fullScreenDialog}
+      >
+        <DialogContent className={classes.dialogContent}>
+          <IconButton
+            onClick={handleCloseImageDialog}
+            className={classes.closeButton}
+          >
+            <Close />
+          </IconButton>
+          {fullScreenImage && (
+            <Box className={classes.fullScreenImageContainer}>
+              <Box
+                style={{
+                  position: "relative",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                {fullScreenImage.urls.length > 1 && (
+                  <IconButton
+                    onClick={() =>
+                      setCurrentImageIndex((prev) =>
+                        prev > 0 ? prev - 1 : fullScreenImage.urls.length - 1
+                      )
+                    }
+                    style={{
+                      position: "absolute",
+                      left: "10px",
+                      zIndex: 1,
+                      backgroundColor: "rgba(0,0,0,0.5)",
+                      color: "white",
+                    }}
+                  >
+                    <ArrowBack />
+                  </IconButton>
+                )}
+                <img
+                  src={fullScreenImage.urls[currentImageIndex]}
+                  alt={fullScreenImage.title}
+                  className={classes.fullScreenImage}
+                />
+                {fullScreenImage.urls.length > 1 && (
+                  <IconButton
+                    onClick={() =>
+                      setCurrentImageIndex((prev) =>
+                        prev < fullScreenImage.urls.length - 1 ? prev + 1 : 0
+                      )
+                    }
+                    style={{
+                      position: "absolute",
+                      right: "10px",
+                      zIndex: 1,
+                      backgroundColor: "rgba(0,0,0,0.5)",
+                      color: "white",
+                    }}
+                  >
+                    <ArrowForward />
+                  </IconButton>
+                )}
+              </Box>
+              <Typography variant="h6" className={classes.imageTitle}>
+                {fullScreenImage.title}
+                {fullScreenImage.urls.length > 1 && (
+                  <span style={{ fontSize: "14px", marginLeft: "10px" }}>
+                    ({currentImageIndex + 1} of {fullScreenImage.urls.length})
+                  </span>
+                )}
+              </Typography>
+            </Box>
+          )}
+        </DialogContent>
+      </Dialog>
     </Box>
   );
 };

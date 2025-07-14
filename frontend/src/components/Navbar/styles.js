@@ -76,7 +76,7 @@ export default makeStyles((theme) => ({
     },
   },
   adminButton: {
-    color: "#affa01", // Light green
+    color: "#000", // Light green
     fontWeight: 900,
     textTransform: "none",
     padding: "6px 12px",
